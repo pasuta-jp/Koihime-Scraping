@@ -3,8 +3,9 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome import service as fs
 from selenium.webdriver.chrome.options import Options
-from time import sleep
+import time
 from bottle import route, run, template, redirect, request
+import schedule
 
 @route("/")
 def output():
@@ -27,3 +28,9 @@ def scraping():
 
 if __name__ == "__main__":
     run(host="localhost", port=1055, debug=True, reloader=True)
+
+schedule.every().wednesday.at("12:00").do(scraping)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
